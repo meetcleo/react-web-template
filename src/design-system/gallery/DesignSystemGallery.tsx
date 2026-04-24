@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { SAFE_AREA_BOTTOM, SAFE_AREA_TOP } from '../../shell';
+import { useSafeArea } from '../../shell';
 import {
   AddressField,
   AlertModal,
@@ -106,6 +106,7 @@ export const DesignSystemGallery: React.FC<{ isOpen: boolean; onClose: () => voi
   onClose,
 }) => {
   const { theme, setTheme } = useTheme();
+  const insets = useSafeArea();
   const [category, setCategory] = useState<Category>('type');
   const [checked, setChecked] = useState(false);
   const [radioValue, setRadioValue] = useState<'a' | 'b'>('a');
@@ -143,8 +144,8 @@ export const DesignSystemGallery: React.FC<{ isOpen: boolean; onClose: () => voi
         >
           <div
             style={{
-              paddingTop: SAFE_AREA_TOP + 8,
-              paddingBottom: SAFE_AREA_BOTTOM + 24,
+              paddingTop: insets.top + 8,
+              paddingBottom: insets.bottom + 24,
               paddingLeft: 16,
               paddingRight: 16,
             }}

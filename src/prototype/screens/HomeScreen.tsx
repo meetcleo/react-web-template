@@ -1,15 +1,17 @@
 import React from 'react';
 import { config } from '../../config';
 import { colorRoles, fontFamilies, fontWeights, Spacing, typographyLineHeightMap, typographySizeMap } from '../../design-system/tokens';
-import { SAFE_AREA_BOTTOM, SAFE_AREA_TOP } from '../../shell';
+import { useSafeArea } from '../../shell';
 
-export const HomeScreen: React.FC = () => (
+export const HomeScreen: React.FC = () => {
+  const insets = useSafeArea();
+  return (
   <div
     style={{
       height: '100%',
       width: '100%',
-      paddingTop: SAFE_AREA_TOP + Spacing.S,
-      paddingBottom: SAFE_AREA_BOTTOM + Spacing.S,
+      paddingTop: insets.top + Spacing.S,
+      paddingBottom: insets.bottom + Spacing.S,
       paddingLeft: Spacing.M,
       paddingRight: Spacing.M,
       display: 'flex',
@@ -45,4 +47,5 @@ export const HomeScreen: React.FC = () => (
       Start prompting to build your prototype.
     </p>
   </div>
-);
+  );
+};
