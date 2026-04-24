@@ -98,7 +98,7 @@ export const IPhoneFrame: React.FC<{ children: React.ReactNode }> = ({ children 
         >
           {children}
 
-          {spec.chrome === 'island' ? (
+          {spec.chrome === 'island' && (
             <button
               type="button"
               {...chromeProps}
@@ -113,7 +113,8 @@ export const IPhoneFrame: React.FC<{ children: React.ReactNode }> = ({ children 
                 padding: 0,
               }}
             />
-          ) : (
+          )}
+          {spec.chrome === 'notch' && (
             <button
               type="button"
               {...chromeProps}
@@ -130,14 +131,30 @@ export const IPhoneFrame: React.FC<{ children: React.ReactNode }> = ({ children 
               }}
             />
           )}
+          {spec.chrome === 'punch-hole' && (
+            <button
+              type="button"
+              {...chromeProps}
+              className="absolute left-1/2 z-50 -translate-x-1/2 cursor-default"
+              style={{
+                top: 14,
+                width: 18,
+                height: 18,
+                borderRadius: 999,
+                backgroundColor: islandColor,
+                border: 'none',
+                padding: 0,
+              }}
+            />
+          )}
 
           <div
             aria-hidden
             className="pointer-events-none absolute left-1/2 z-50 -translate-x-1/2"
             style={{
               bottom: 8,
-              width: 134,
-              height: 5,
+              width: spec.platform === 'Android' ? 108 : 134,
+              height: spec.platform === 'Android' ? 4 : 5,
               borderRadius: 999,
               backgroundColor: 'var(--content-primary)',
               opacity: 0.9,
@@ -172,65 +189,80 @@ export const IPhoneFrame: React.FC<{ children: React.ReactNode }> = ({ children 
                     boxShadow: '0 12px 32px rgba(0, 0, 0, 0.2), 0 0 0 1px var(--border-default)',
                   }}
                 >
-                  <div
-                    style={{
-                      padding: '12px 20px 8px',
-                      fontFamily: 'var(--font-body, inherit)',
-                      fontSize: 11,
-                      fontWeight: 600,
-                      letterSpacing: '0.06em',
-                      textTransform: 'uppercase',
-                      color: 'var(--content-tertiary)',
-                    }}
-                  >
-                    Viewport size
-                  </div>
-                  {(Object.keys(FRAME_PRESETS) as FramePreset[]).map((key) => {
-                    const p = FRAME_PRESETS[key];
-                    const selected = key === preset;
+                  {(['iOS', 'Android'] as const).map((platform) => {
+                    const keys = (Object.keys(FRAME_PRESETS) as FramePreset[]).filter(
+                      (k) => FRAME_PRESETS[k].platform === platform,
+                    );
                     return (
-                      <button
-                        key={key}
-                        type="button"
-                        onClick={() => {
-                          setPreset(key);
-                          setPresetMenuOpen(false);
-                        }}
-                        className="flex w-full items-center justify-between"
-                        style={{
-                          gap: 24,
-                          padding: '14px 20px',
-                          border: 'none',
-                          backgroundColor: selected ? 'var(--bg-secondary)' : 'transparent',
-                          cursor: 'pointer',
-                          textAlign: 'left',
-                        }}
-                      >
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                          <span
-                            style={{
-                              fontFamily: 'var(--font-body, inherit)',
-                              fontSize: 15,
-                              fontWeight: 600,
-                              color: 'var(--content-primary)',
-                            }}
-                          >
-                            {p.label}
-                          </span>
-                          <span
-                            style={{
-                              fontFamily: 'var(--font-body, inherit)',
-                              fontSize: 13,
-                              color: 'var(--content-secondary)',
-                            }}
-                          >
-                            {p.width} × {p.height} · {p.chrome === 'island' ? 'Dynamic Island' : 'Notch'}
-                          </span>
+                      <div key={platform} style={{ marginTop: platform === 'Android' ? 12 : 0 }}>
+                        <div
+                          style={{
+                            padding: '12px 20px 8px',
+                            fontFamily: 'var(--font-body, inherit)',
+                            fontSize: 11,
+                            fontWeight: 600,
+                            letterSpacing: '0.06em',
+                            textTransform: 'uppercase',
+                            color: 'var(--content-tertiary)',
+                          }}
+                        >
+                          {platform}
                         </div>
-                        {selected && (
-                          <span style={{ color: 'var(--content-accentMid)', fontSize: 16 }}>✓</span>
-                        )}
-                      </button>
+                        {keys.map((key) => {
+                          const p = FRAME_PRESETS[key];
+                          const selected = key === preset;
+                          const chromeLabel =
+                            p.chrome === 'island'
+                              ? 'Dynamic Island'
+                              : p.chrome === 'notch'
+                                ? 'Notch'
+                                : 'Punch-hole';
+                          return (
+                            <button
+                              key={key}
+                              type="button"
+                              onClick={() => {
+                                setPreset(key);
+                                setPresetMenuOpen(false);
+                              }}
+                              className="flex w-full items-center justify-between"
+                              style={{
+                                gap: 24,
+                                padding: '10px 20px',
+                                border: 'none',
+                                backgroundColor: selected ? 'var(--bg-secondary)' : 'transparent',
+                                cursor: 'pointer',
+                                textAlign: 'left',
+                              }}
+                            >
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                                <span
+                                  style={{
+                                    fontFamily: 'var(--font-body, inherit)',
+                                    fontSize: 15,
+                                    fontWeight: 600,
+                                    color: 'var(--content-primary)',
+                                  }}
+                                >
+                                  {p.label}
+                                </span>
+                                <span
+                                  style={{
+                                    fontFamily: 'var(--font-body, inherit)',
+                                    fontSize: 13,
+                                    color: 'var(--content-secondary)',
+                                  }}
+                                >
+                                  {p.width} × {p.height} · {chromeLabel}
+                                </span>
+                              </div>
+                              {selected && (
+                                <span style={{ color: 'var(--content-accentMid)', fontSize: 16 }}>✓</span>
+                              )}
+                            </button>
+                          );
+                        })}
+                      </div>
                     );
                   })}
                 </motion.div>

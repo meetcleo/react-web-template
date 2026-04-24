@@ -1,10 +1,12 @@
 import React, { createContext, useContext, useMemo, useState } from 'react';
 
-export type FrameChrome = 'notch' | 'island';
-export type FramePreset = 'small' | 'medium' | 'large';
+export type FrameChrome = 'notch' | 'island' | 'punch-hole';
+export type FramePlatform = 'iOS' | 'Android';
+export type FramePreset = 'small' | 'medium' | 'large' | 'android';
 
 export type FrameSpec = {
   label: string;
+  platform: FramePlatform;
   width: number;
   height: number;
   chrome: FrameChrome;
@@ -16,10 +18,12 @@ export type FrameSpec = {
 // Small: iPhone 13 mini / X era (notch)
 // Medium: iPhone 15 / 16 (dynamic island)
 // Large: iPhone 15/16 Pro Max (dynamic island)
+// Android: Pixel 8 (centred punch-hole camera)
 export const FRAME_PRESETS: Record<FramePreset, FrameSpec> = {
-  small: { label: 'Small', width: 375, height: 812, chrome: 'notch', safeAreaTop: 44, safeAreaBottom: 34 },
-  medium: { label: 'Medium', width: 393, height: 852, chrome: 'island', safeAreaTop: 59, safeAreaBottom: 34 },
-  large: { label: 'Large', width: 430, height: 932, chrome: 'island', safeAreaTop: 59, safeAreaBottom: 34 },
+  small: { label: 'Small', platform: 'iOS', width: 375, height: 812, chrome: 'notch', safeAreaTop: 44, safeAreaBottom: 34 },
+  medium: { label: 'Medium', platform: 'iOS', width: 393, height: 852, chrome: 'island', safeAreaTop: 59, safeAreaBottom: 34 },
+  large: { label: 'Large', platform: 'iOS', width: 430, height: 932, chrome: 'island', safeAreaTop: 59, safeAreaBottom: 34 },
+  android: { label: 'Pixel 8', platform: 'Android', width: 412, height: 915, chrome: 'punch-hole', safeAreaTop: 44, safeAreaBottom: 24 },
 };
 
 export type SafeAreaInsets = {
