@@ -1,0 +1,38 @@
+import type { ReactElement, ReactNode } from 'react';
+import type { ButtonProps } from '../Button';
+import type { LineIconName, LineIconSize } from '../LineIcon/types';
+import type { TagProps } from '../Tag/types';
+import type { TypographyType } from '../../tokens';
+
+export type ListItemProps = {
+  title: string;
+  titleType?: TypographyType;
+  titleSize?: 'S' | 'M';
+  titleIcon?: LineIconName;
+  subtitle?: string;
+  eyebrowText?: string;
+  label?: string | ReactElement;
+  labelType?: TypographyType;
+  labelSize?: 'S' | 'M';
+  subLabel?: string;
+  icon?: LineIconName;
+  iconPosition?: 'left' | 'right';
+  iconBgColor?: string;
+  iconColor?: string;
+  iconSize?: LineIconSize;
+  number?: number;
+  numberBgColor?: string;
+  numberColor?: string;
+  tag?: ReactElement<TagProps>;
+  tagPosition?: 'left' | 'right';
+  button?: ReactElement<ButtonProps>;
+  onPress?: () => void;
+  isDisabled?: boolean;
+  isLoading?: boolean;
+  hideChevron?: boolean;
+  bgColor?: string;
+  progressPercentage?: number;
+  footerContent?: ReactNode;
+  isCompact?: boolean;
+  className?: string;
+};
