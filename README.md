@@ -8,7 +8,7 @@ A starting point for interactive product prototypes, pre-wired with Cleo's desig
 2. Clone your new repo to your machine.
 3. Run `npm install`.
 4. Run `npm run dev`.
-5. Open `http://localhost:5173` in your browser.
+5. Open the URL printed in your terminal (usually `http://localhost:5173`).
 6. Open Claude Code (or your AI coding tool of choice) in the project folder and start prompting.
 
 ## Tips for prompting
